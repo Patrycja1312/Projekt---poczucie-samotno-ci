@@ -1,7 +1,7 @@
 -- ** -- ** -- ** -- DO STRONY 1 -- ** -- ** -- ** --
--- zmiany w nazwach wartoúci dla lepszej wizualizacji --
+-- zmiany w nazwach warto≈õci dla lepszej wizualizacji --
 UPDATE samotnoscdane
-SET Stan_cywilny = 'W zwiπzku nieformalnym'
+SET Stan_cywilny = 'W zwiƒÖzku nieformalnym'
 WHERE Stan_cywilny LIKE 'Jestem w%';
 
 UPDATE samotnoscdane
@@ -9,20 +9,20 @@ SET Miejscowosc = 'Wielkie miasto'
 WHERE Miejscowosc LIKE '%Wielkie miasto%';
 
 UPDATE samotnoscdane
-SET Miejscowosc = 'Duøe miasto'
-WHERE Miejscowosc LIKE '%Duøe miasto%';
+SET Miejscowosc = 'Du≈ºe miasto'
+WHERE Miejscowosc LIKE '%Du≈ºe miasto%';
 
 UPDATE samotnoscdane
-SET Miejscowosc = 'årednie miasto'
-WHERE Miejscowosc LIKE '%årednie miasto%';
+SET Miejscowosc = '≈örednie miasto'
+WHERE Miejscowosc LIKE '%≈örednie miasto%';
 
 UPDATE samotnoscdane
-SET Miejscowosc = 'Ma≥e miasto'
-WHERE Miejscowosc LIKE '%Ma≥e miasto%';
+SET Miejscowosc = 'Ma≈Çe miasto'
+WHERE Miejscowosc LIKE '%Ma≈Çe miasto%';
 
 UPDATE samotnoscdane
-SET Miejscowosc = 'Wieú'
-WHERE Miejscowosc LIKE '%wieú%';
+SET Miejscowosc = 'Wie≈õ'
+WHERE Miejscowosc LIKE '%wie≈õ%';
 
 UPDATE samotnoscdane
 SET Czy_mozna_ufac_ludziom_skala_do_10 = '10'
@@ -34,19 +34,19 @@ WHERE Czy_mozna_ufac_ludziom_skala_do_10 LIKE '0%';
 
 
 -- ** -- ** -- ** -- DO STRONY 2 -- ** -- ** -- ** --
--- Sprawdzenie jakie opcje by≥y do wyboru jako odpowiedü na pytanie "Jak czÍsto w ostatnim roku czu≥eú siÍ samotny?"
+-- Sprawdzenie jakie opcje by≈Çy do wyboru jako odpowied≈∫ na pytanie "Jak czƒôsto w ostatnim roku czu≈Çe≈õ siƒô samotny?"
 SELECT DISTINCT Ostatni_rok_poczucie_samotnosci
 FROM samotnoscdane;
--- Odpowiedzi: Nigdy, Rzadko, Czasami, CzÍsto
+-- Odpowiedzi: Nigdy, Rzadko, Czasami, Czƒôsto
 
--- Ile osÛb da≥o poszczegÛlne odpowiedzi
-SELECT Ostatni_rok_poczucie_samotnosci, COUNT(Ostatni_rok_poczucie_samotnosci) AS IloúÊ
+-- Ile os√≥b da≈Ço poszczeg√≥lne odpowiedzi
+SELECT Ostatni_rok_poczucie_samotnosci, COUNT(Ostatni_rok_poczucie_samotnosci) AS Ilo≈õƒá
 FROM samotnoscdane
 GROUP BY Ostatni_rok_poczucie_samotnosci
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 GO
 
--- ** -- WIDOK - czy osoba ankietowana doúwiadczy≥a poczucia samotnoúci w ostatnim roku -- ** -- 
+-- ** -- WIDOK - czy osoba ankietowana do≈õwiadczy≈Ça poczucia samotno≈õci w ostatnim roku -- ** -- 
 CREATE OR ALTER VIEW czy_doswiadczyl_poczucia_samotnosci_w_ostatnim_roku AS
 SELECT Nr_ankiety,
 CASE
@@ -59,11 +59,11 @@ GO
 SELECT * FROM czy_doswiadczyl_poczucia_samotnosci_w_ostatnim_roku;
 GO
 
--- ** -- WIDOK - osoby, ktÛre czasami lub czÍsto w ostatnim roku doúwiadczy≥y poczucia samotnoúci -- ** -- 
+-- ** -- WIDOK - osoby, kt√≥re czasami lub czƒôsto w ostatnim roku do≈õwiadczy≈Çy poczucia samotno≈õci -- ** -- 
 CREATE OR ALTER VIEW czy_doswiadczyl_czasami_lub_czesto_poczucia_samotnosci_w_ostatnim_roku AS
 SELECT Nr_ankiety,
 CASE
-	WHEN Ostatni_rok_poczucie_samotnosci LIKE 'CzÍsto' OR Ostatni_rok_poczucie_samotnosci LIKE 'Czasami' THEN 'Tak'
+	WHEN Ostatni_rok_poczucie_samotnosci LIKE 'Czƒôsto' OR Ostatni_rok_poczucie_samotnosci LIKE 'Czasami' THEN 'Tak'
 	ELSE 'Nie'
 END AS Poczucie_samotnosci
 FROM samotnoscdane;
@@ -72,7 +72,7 @@ GO
 SELECT * FROM czy_doswiadczyl_czasami_lub_czesto_poczucia_samotnosci_w_ostatnim_roku;
 GO
 
--- ** -- WIDOK - osoby, ktÛre kiedykolwiek w ostatnim roku doúwiadczy≥y poczucia samotnoúci -- ** --
+-- ** -- WIDOK - osoby, kt√≥re kiedykolwiek w ostatnim roku do≈õwiadczy≈Çy poczucia samotno≈õci -- ** --
 CREATE OR ALTER VIEW samotni AS
 SELECT * 
 FROM samotnoscdane
@@ -81,45 +81,45 @@ GO
 
 SELECT * FROM samotni
 
--- Procentowo z podzia≥em na wiek i p≥eÊ - osoby, ktÛre kiedykolwiek w ostatnim roku doúwiadczy≥y poczucia samotnoúci
-SELECT sd.Wiek_przedzial, sd.P≥eÊ, 
-COUNT(sd.Wiek_przedzial) AS ca≥oúÊ_wiek, 
+-- Procentowo z podzia≈Çem na wiek i p≈Çeƒá - osoby, kt√≥re kiedykolwiek w ostatnim roku do≈õwiadczy≈Çy poczucia samotno≈õci
+SELECT sd.Wiek_przedzial, sd.P≈Çeƒá, 
+COUNT(sd.Wiek_przedzial) AS ca≈Ço≈õƒá_wiek, 
 COUNT(s.Wiek_przedzial) AS samotni_wiek, 
 COUNT(s.Wiek_przedzial)/CAST(COUNT(sd.Wiek_przedzial) 
 AS DECIMAL(7,2))*100 AS procent
 FROM samotnoscdane sd
 LEFT JOIN samotni s ON sd.Nr_ankiety = s.Nr_ankiety
-GROUP BY sd.Wiek_przedzial, sd.P≥eÊ
+GROUP BY sd.Wiek_przedzial, sd.P≈Çeƒá
 ORDER BY Wiek_przedzial ASC, procent DESC
 GO
 
--- ** -- WIDOK - osoby, ktÛre czasami lub czÍsto w ostatnim roku doúwiadczy≥y poczucia samotnoúci -- ** --
+-- ** -- WIDOK - osoby, kt√≥re czasami lub czƒôsto w ostatnim roku do≈õwiadczy≈Çy poczucia samotno≈õci -- ** --
 CREATE OR ALTER VIEW samotni_czasami_czesto AS
 SELECT * 
 FROM samotnoscdane
-WHERE Ostatni_rok_poczucie_samotnosci LIKE 'CzÍsto' OR Ostatni_rok_poczucie_samotnosci LIKE 'Czasami'
+WHERE Ostatni_rok_poczucie_samotnosci LIKE 'Czƒôsto' OR Ostatni_rok_poczucie_samotnosci LIKE 'Czasami'
 GO
 
 SELECT * FROM samotni_czasami_czesto
 
---- Procentowo z podzia≥em na wiek i p≥eÊ - osoby, ktÛre czasami lub czÍsto w ostatnim roku doúwiadczy≥y poczucia samotnoúci
-SELECT sd.Wiek_przedzial, sd.P≥eÊ, COUNT(sd.Wiek_przedzial) AS ca≥oúÊ_wiek, COUNT(scc.Wiek_przedzial) AS samotni_czasami_czesto_wiek, COUNT(scc.Wiek_przedzial)/CAST(COUNT(sd.Wiek_przedzial) AS DECIMAL(7,2))*100 AS procent
+--- Procentowo z podzia≈Çem na wiek i p≈Çeƒá - osoby, kt√≥re czasami lub czƒôsto w ostatnim roku do≈õwiadczy≈Çy poczucia samotno≈õci
+SELECT sd.Wiek_przedzial, sd.P≈Çeƒá, COUNT(sd.Wiek_przedzial) AS ca≈Ço≈õƒá_wiek, COUNT(scc.Wiek_przedzial) AS samotni_czasami_czesto_wiek, COUNT(scc.Wiek_przedzial)/CAST(COUNT(sd.Wiek_przedzial) AS DECIMAL(7,2))*100 AS procent
 FROM samotnoscdane sd
 LEFT JOIN samotni_czasami_czesto scc ON sd.Nr_ankiety = scc.Nr_ankiety
-GROUP BY sd.Wiek_przedzial, sd.P≥eÊ
+GROUP BY sd.Wiek_przedzial, sd.P≈Çeƒá
 ORDER BY Wiek_przedzial ASC, procent DESC
 
--- ** DZIA£ANIA NA WIDOKU samotni_czasami_czesto ** --
--- wykszta≥cenie
-SELECT sd.Wyksztalcenie, COUNT(sd.Wyksztalcenie) AS ca≥oúÊ_wykszta≥cenie, COUNT(scc.Wyksztalcenie) AS samotni_czas_czes_wyksztalcenie, 
-ROUND(COUNT(scc.Wyksztalcenie)/CAST(COUNT(sd.Wyksztalcenie) AS DECIMAL(7,2))*100,2) AS procent_wykszta≥cenie
+-- ** DZIA≈ÅANIA NA WIDOKU samotni_czasami_czesto ** --
+-- wykszta≈Çcenie
+SELECT sd.Wyksztalcenie, COUNT(sd.Wyksztalcenie) AS ca≈Ço≈õƒá_wykszta≈Çcenie, COUNT(scc.Wyksztalcenie) AS samotni_czas_czes_wyksztalcenie, 
+ROUND(COUNT(scc.Wyksztalcenie)/CAST(COUNT(sd.Wyksztalcenie) AS DECIMAL(7,2))*100,2) AS procent_wykszta≈Çcenie
 FROM samotnoscdane sd
 LEFT JOIN samotni_czasami_czesto scc ON sd.Nr_ankiety = scc.Nr_ankiety
 GROUP BY sd.Wyksztalcenie
-ORDER BY procent_wykszta≥cenie DESC
+ORDER BY procent_wykszta≈Çcenie DESC
 
 -- dzieci
-SELECT sd.Mam_dzieci, COUNT(sd.Mam_dzieci) AS ca≥oúÊ_dzieci, COUNT(scc.Mam_dzieci) AS samotni_czas_czes_dzieci, (COUNT(sd.Mam_dzieci) - COUNT(scc.Mam_dzieci)) AS roznica_dzieci,
+SELECT sd.Mam_dzieci, COUNT(sd.Mam_dzieci) AS ca≈Ço≈õƒá_dzieci, COUNT(scc.Mam_dzieci) AS samotni_czas_czes_dzieci, (COUNT(sd.Mam_dzieci) - COUNT(scc.Mam_dzieci)) AS roznica_dzieci,
 ROUND(COUNT(scc.Mam_dzieci)/CAST(COUNT(sd.Mam_dzieci) AS DECIMAL(7,2))*100,2) AS procent_dzieci,
 100 - ROUND(COUNT(scc.Mam_dzieci)/CAST(COUNT(sd.Mam_dzieci) AS DECIMAL(7,2))*100,2) AS procent_roznica_dzieci
 FROM samotnoscdane sd
@@ -128,32 +128,32 @@ GROUP BY sd.Mam_dzieci
 ORDER BY procent_dzieci DESC
 
 -- stan_cywilny
-SELECT sd.Stan_cywilny, COUNT(sd.Stan_cywilny) AS ca≥oúÊ_stan_cywilny, COUNT(scc.Stan_cywilny) AS samotni_czas_czes_stan_cywilny, 
+SELECT sd.Stan_cywilny, COUNT(sd.Stan_cywilny) AS ca≈Ço≈õƒá_stan_cywilny, COUNT(scc.Stan_cywilny) AS samotni_czas_czes_stan_cywilny, 
 ROUND(COUNT(scc.Stan_cywilny)/CAST(COUNT(sd.Stan_cywilny) AS DECIMAL(7,2))*100,2) AS procent_stan_cywilny
 FROM samotnoscdane sd
 LEFT JOIN samotni_czasami_czesto scc ON sd.Nr_ankiety = scc.Nr_ankiety
 GROUP BY sd.Stan_cywilny
 ORDER BY procent_stan_cywilny DESC
 
--- miejscowoúÊ
-SELECT sd.Miejscowosc, COUNT(sd.Miejscowosc) AS ca≥oúÊ_miejscowosc, COUNT(scc.Miejscowosc) AS samotni_czas_czes_miejscowosc, 
+-- miejscowo≈õƒá
+SELECT sd.Miejscowosc, COUNT(sd.Miejscowosc) AS ca≈Ço≈õƒá_miejscowosc, COUNT(scc.Miejscowosc) AS samotni_czas_czes_miejscowosc, 
 ROUND(COUNT(scc.Miejscowosc)/CAST(COUNT(sd.Miejscowosc) AS DECIMAL(7,2))*100,2) AS procent_miejscowosc
 FROM samotnoscdane sd
 LEFT JOIN samotni_czasami_czesto scc ON sd.Nr_ankiety = scc.Nr_ankiety
 GROUP BY sd.Miejscowosc
 ORDER BY procent_miejscowosc DESC
 
--- ** DZIA£ANIA NA WIDOKU samotni ** --
--- wykszta≥cenie
-SELECT sd.Wyksztalcenie, COUNT(sd.Wyksztalcenie) AS ca≥oúÊ_wykszta≥cenie, COUNT(s.Wyksztalcenie) AS samotni_wyksztalcenie, 
-ROUND(COUNT(s.Wyksztalcenie)/CAST(COUNT(sd.Wyksztalcenie) AS DECIMAL(7,2))*100,2) AS procent_wykszta≥cenie
+-- ** DZIA≈ÅANIA NA WIDOKU samotni ** --
+-- wykszta≈Çcenie
+SELECT sd.Wyksztalcenie, COUNT(sd.Wyksztalcenie) AS ca≈Ço≈õƒá_wykszta≈Çcenie, COUNT(s.Wyksztalcenie) AS samotni_wyksztalcenie, 
+ROUND(COUNT(s.Wyksztalcenie)/CAST(COUNT(sd.Wyksztalcenie) AS DECIMAL(7,2))*100,2) AS procent_wykszta≈Çcenie
 FROM samotnoscdane sd
 LEFT JOIN samotni s ON sd.Nr_ankiety = s.Nr_ankiety
 GROUP BY sd.Wyksztalcenie
-ORDER BY procent_wykszta≥cenie DESC
+ORDER BY procent_wykszta≈Çcenie DESC
 
 -- dzieci
-SELECT sd.Mam_dzieci, COUNT(sd.Mam_dzieci) AS ca≥oúÊ_dzieci, COUNT(s.Mam_dzieci) AS samotni_dzieci, 
+SELECT sd.Mam_dzieci, COUNT(sd.Mam_dzieci) AS ca≈Ço≈õƒá_dzieci, COUNT(s.Mam_dzieci) AS samotni_dzieci, 
 ROUND(COUNT(s.Mam_dzieci)/CAST(COUNT(sd.Mam_dzieci) AS DECIMAL(7,2))*100,2) AS procent_dzieci
 FROM samotnoscdane sd
 LEFT JOIN samotni s ON sd.Nr_ankiety = s.Nr_ankiety
@@ -161,15 +161,15 @@ GROUP BY sd.Mam_dzieci
 ORDER BY procent_dzieci DESC
 
 -- stan_cywilny
-SELECT sd.Stan_cywilny, COUNT(sd.Stan_cywilny) AS ca≥oúÊ_stan_cywilny, COUNT(s.Stan_cywilny) AS samotni_stan_cywilny, 
+SELECT sd.Stan_cywilny, COUNT(sd.Stan_cywilny) AS ca≈Ço≈õƒá_stan_cywilny, COUNT(s.Stan_cywilny) AS samotni_stan_cywilny, 
 ROUND(COUNT(s.Stan_cywilny)/CAST(COUNT(sd.Stan_cywilny) AS DECIMAL(7,2))*100,2) AS procent_stan_cywilny
 FROM samotnoscdane sd
 LEFT JOIN samotni s ON sd.Nr_ankiety = s.Nr_ankiety
 GROUP BY sd.Stan_cywilny
 ORDER BY procent_stan_cywilny DESC
 
--- miejscowoúÊ
-SELECT sd.Miejscowosc, COUNT(sd.Miejscowosc) AS ca≥oúÊ_miejscowosc, COUNT(s.Miejscowosc) AS samotni_miejscowosc, 
+-- miejscowo≈õƒá
+SELECT sd.Miejscowosc, COUNT(sd.Miejscowosc) AS ca≈Ço≈õƒá_miejscowosc, COUNT(s.Miejscowosc) AS samotni_miejscowosc, 
 ROUND(COUNT(s.Miejscowosc)/CAST(COUNT(sd.Miejscowosc) AS DECIMAL(7,2))*100,2) AS procent_miejscowosc
 FROM samotnoscdane sd
 LEFT JOIN samotni s ON sd.Nr_ankiety = s.Nr_ankiety
@@ -177,46 +177,48 @@ GROUP BY sd.Miejscowosc
 ORDER BY procent_miejscowosc DESC
 
 
--- ** -- ** -- ** -- DO STRONY 3 -- ** -- ** -- ** -
--- poczucie atrakcyjnoúci
-SELECT Czy_jestem_atrakcyjny_skala_do_5, COUNT(Czy_jestem_atrakcyjny_skala_do_5) AS IloúÊ
+-- ** -- ** -- ** -- DO STRONY 3 -- ** -- ** -- ** --
+-- analiza jak osoby samotne odpowiedzia≈Çy na inne pytania
+	
+-- poczucie atrakcyjno≈õci
+SELECT Czy_jestem_atrakcyjny_skala_do_5, COUNT(Czy_jestem_atrakcyjny_skala_do_5) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
 GROUP BY Czy_jestem_atrakcyjny_skala_do_5
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 
--- poczucie szczÍúcia
-SELECT Jak_bardzo_jestem_szczesliwy_skala_do_5, COUNT(Jak_bardzo_jestem_szczesliwy_skala_do_5) AS IloúÊ
+-- poczucie szczƒô≈õcia
+SELECT Jak_bardzo_jestem_szczesliwy_skala_do_5, COUNT(Jak_bardzo_jestem_szczesliwy_skala_do_5) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
 GROUP BY Jak_bardzo_jestem_szczesliwy_skala_do_5
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 
--- aktywnoúÊ 7 dni
-SELECT Ostatnie_7_dni_aktywnosc_powyzej_30min, COUNT(Ostatnie_7_dni_aktywnosc_powyzej_30min) AS IloúÊ
+-- aktywno≈õƒá 7 dni
+SELECT Ostatnie_7_dni_aktywnosc_powyzej_30min, COUNT(Ostatnie_7_dni_aktywnosc_powyzej_30min) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
 GROUP BY Ostatnie_7_dni_aktywnosc_powyzej_30min
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 
 -- poczucie opuszczenia
-SELECT CzujÍ_siÍ_opuszczony, COUNT(CzujÍ_siÍ_opuszczony) AS IloúÊ
+SELECT Czujƒô_siƒô_opuszczony, COUNT(Czujƒô_siƒô_opuszczony) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
-GROUP BY CzujÍ_siÍ_opuszczony
-ORDER BY IloúÊ DESC;
+GROUP BY Czujƒô_siƒô_opuszczony
+ORDER BY Ilo≈õƒá DESC;
 
--- jestem zupe≥nie do niczego
-SELECT Czasami_myúlÍ_øe_jestem_zupe≥nie_do_niczego, COUNT(Czasami_myúlÍ_øe_jestem_zupe≥nie_do_niczego) AS IloúÊ
+-- jestem zupe≈Çnie do niczego
+SELECT Czasami_my≈õlƒô_≈ºe_jestem_zupe≈Çnie_do_niczego, COUNT(Czasami_my≈õlƒô_≈ºe_jestem_zupe≈Çnie_do_niczego) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
-GROUP BY Czasami_myúlÍ_øe_jestem_zupe≥nie_do_niczego
-ORDER BY IloúÊ DESC;
+GROUP BY Czasami_my≈õlƒô_≈ºe_jestem_zupe≈Çnie_do_niczego
+ORDER BY Ilo≈õƒá DESC;
 
 -- zdrowie psychiczne
-SELECT COALESCE(Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, 'Brak odpowiedzi') AS Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, COUNT(COALESCE(Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, 'Brak odpowiedzi')) AS IloúÊ
+SELECT COALESCE(Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, 'Brak odpowiedzi') AS Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, COUNT(COALESCE(Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, 'Brak odpowiedzi')) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
 GROUP BY COALESCE(Czasami_niepokoje_sie_o_moje_zdrowie_psychiczne, 'Brak odpowiedzi')
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 
 -- ludzie postepuja uczciwie
 SELECT Czy_wiekszosc_ludzi_postepuje_uczciwie_skala_do_10, 
-COUNT(Czy_wiekszosc_ludzi_postepuje_uczciwie_skala_do_10) AS IloúÊ,
+COUNT(Czy_wiekszosc_ludzi_postepuje_uczciwie_skala_do_10) AS Ilo≈õƒá,
 CASE 
 	WHEN Czy_wiekszosc_ludzi_postepuje_uczciwie_skala_do_10 IN ('10%','9','8') THEN '8-10'
 	WHEN Czy_wiekszosc_ludzi_postepuje_uczciwie_skala_do_10 IN ('0%','1','2') THEN '0-2'
@@ -226,30 +228,31 @@ CASE
 END AS uczciwosc
 FROM samotni_czasami_czesto
 GROUP BY Czy_wiekszosc_ludzi_postepuje_uczciwie_skala_do_10
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 
--- mozna ufaÊ ludziom
-SELECT CAST(Czy_mozna_ufac_ludziom_skala_do_10 AS Int) AS Czy_mozna_ufac_ludziom_skala_do_10, COUNT(Czy_mozna_ufac_ludziom_skala_do_10) AS IloúÊ
+-- mozna ufaƒá ludziom
+SELECT CAST(Czy_mozna_ufac_ludziom_skala_do_10 AS Int) AS Czy_mozna_ufac_ludziom_skala_do_10, COUNT(Czy_mozna_ufac_ludziom_skala_do_10) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
 GROUP BY Czy_mozna_ufac_ludziom_skala_do_10
 ORDER BY Czy_mozna_ufac_ludziom_skala_do_10 ASC;
 
--- myúli samobÛjcze
+-- my≈õli samob√≥jcze
 SELECT Ostatni_rok_mysli_samobojcze, 
-COUNT(Ostatni_rok_mysli_samobojcze) AS IloúÊ,
+COUNT(Ostatni_rok_mysli_samobojcze) AS Ilo≈õƒá,
 CASE Ostatni_rok_mysli_samobojcze
 	WHEN 'Nigdy' THEN 'Nie'
 	ELSE 'Tak'
 END AS Mysli_samobojcze_ost_rok
 FROM samotni_czasami_czesto
 GROUP BY Ostatni_rok_mysli_samobojcze
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
 
 SELECT Ostatni_rok_mysli_samobojcze, COUNT(Ostatni_rok_mysli_samobojcze)
 FROM samotnoscdane
 GROUP BY Ostatni_rok_mysli_samobojcze
 
-SELECT Mam_dzieci, COUNT(Mam_dzieci) AS IloúÊ
+-- dzieci
+SELECT Mam_dzieci, COUNT(Mam_dzieci) AS Ilo≈õƒá
 FROM samotni_czasami_czesto
 GROUP BY Mam_dzieci
-ORDER BY IloúÊ DESC;
+ORDER BY Ilo≈õƒá DESC;
